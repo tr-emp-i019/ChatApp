@@ -1,12 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
-import toast, {Toaster} from "react-hot-toast"
-import {io} from "socket.io-frontend"
+import toast from "react-hot-toast"
+import io from 'socket.io-client';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 axios.defaults.baseURL = backendUrl;
 
-export  const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export  const AuthProvider = ({ children }) => {
 
@@ -61,9 +61,9 @@ export  const AuthProvider = ({ children }) => {
 
 //Update profile function to handle user profile updates
 
-const UpdateProfile = async (body) =>{
+const updateProfile = async (body) =>{
     try {
-        const {data} = await axios.put("/api/auth/update-profile", body);
+        const {data} = await axios.post("/api/auth/update-profile", body);
         if (data.success) {
             setAuthUser(data.user);
             toast.success("Profile updated Successfully")
@@ -105,7 +105,7 @@ useEffect(() =>{
           socket,
           login,
           logout,
-          UpdateProfile
+          updateProfile
     }
 
     return(

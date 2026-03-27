@@ -91,7 +91,7 @@ const LoginPage = () => {
         {currState === "Sign up" ? 
         (<p className='text-sm text-gray-600'>Already have an account? 
         <span 
-        onClick={() => {setCurrState("Login"); isDataSubmitted(false)}}
+        onClick={() => {setCurrState("Login"); setIsDataSubmitted(false)}}
          className='font-medium text-violet-600 cursor-pointer'>Login here</span></p>
 
         ) 

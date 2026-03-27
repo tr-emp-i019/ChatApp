@@ -24,7 +24,7 @@ export const signup = async (req, res) => {
          const newUser = await User.create({
             fullName,
             email,
-            password: hashedPassword    ,
+            password: handlePassword    ,
             bio
          })
 
