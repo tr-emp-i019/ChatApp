@@ -49,7 +49,9 @@ export const Login = async (req, res) => {
         }
 
         const userData = await User.findOne({email})
-
+        if (!userData) {
+            return res.json({success:false, message: "User not found"})
+        }
          const isPasswordCorrect = await bcrypt.compare(password, userData.password)
          if (!isPasswordCorrect) {
             return res.json({success:false, message: " Password is incorrect"})
@@ -77,15 +79,25 @@ export const checkAuth = (req, res) =>{
 export const updateProfile = async (req, res) => {
      try {
         const {profilePic, bio, fullName} = req.body;
-
-        const userId = req.user._id;
+        console.log("Request body:", req.body);
+        const userId = "69c65db95ec6b92b4e73f409"; //req.user._id;
+        console.log("Request body:", profilePic);
+        console.log("User ID:", userId);
         let updatedUser;
-
         if (!profilePic) {
             updatedUser = await User.findByIdAndUpdate(userId, {bio, fullName},
                 {new: true});
         } else{
-            const upload = await cloudinary.uploader.upload(profilePic)
+            let upload;
+           try {
+             upload = await cloudinary.uploader.upload(profilePic, {
+                    resource_type: 'auto',
+             });
+             console.log("Cloudinary upload successful:", upload);
+           } catch (error) {
+            console.log("Cloudinary upload failed:", error.message);
+            return res.json({success:false, message: "Image upload failed: "}) 
+           }
 
             updatedUser = await User.findByIdAndUpdate(
                 userId,

@@ -55,5 +55,5 @@ app.use("/api/messages", messageRouter)
 //connect to mongoDB
 await connectDB()
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5001;
 server.listen(PORT, () => console.log(`server is listening on port ${PORT}`));
